@@ -1,25 +1,17 @@
 #!/usr/bin/env ruby
 
-# Define the regular expression pattern to extract sender, receiver, and flags
-regex_pattern = /\[from:([^[\]]+)\] \[to:([^[\]]+)\] \[flags:([^[\]]+)\]/
+# Extract sender, receiver, and flags using scan and regular expressions
+matches = ARGV[0].scan(/\[from:(.*?)\] \[to:(.*?)\] \[flags:(.*?)\]/)
 
-# Check if an argument is provided
-if ARGV.empty?
-  puts "Please provide a log line as an argument."
-else
-  log_line = ARGV[0]
-
-  # Match the log line against the regular expression
-  match = log_line.match(regex_pattern)
-
-  # Check if a match was found
-  if match
-    sender = match[1]
-    receiver = match[2]
-    flags = match[3]
+# Check if any matches were found
+if matches.any?
+  matches.each do |match|
+    sender = match[0]
+    receiver = match[1]
+    flags = match[2]
     puts "#{sender},#{receiver},#{flags}"
-  else
-    puts "No match found for the provided log line."
   end
+else
+  puts "No matches found."
 end
 
