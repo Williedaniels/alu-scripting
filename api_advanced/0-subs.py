@@ -1,33 +1,28 @@
 #!/usr/bin/python3
-"""
-making api calls to the reddit api endpoint
-"""
+'''
+Defines function that queries the Reddit API and returns the
+number of subscribers
+'''
 import requests
 import sys
 
 
 def number_of_subscribers(subreddit):
-    """
-    main function
-    """
-    url = f"https://www.reddit.com/r/{subreddit}/about.json"
-    headers = {'User-Agent': 'Testapi/1.0 by Danjor667'}
-    try:
-        response = requests.get(url, headers=headers, allow_redirects=False)
-        if response.status_code == 200:
-            data = response.json()
-            return data['data']['subscribers']
-        else:
-            return 0
-    except requests.exceptions.RequestException as e:
-        print(f"An error occurred: {e}")
-        return 0
-
-
-if __name__ == "__main__":
-    if len(sys.argv) < 2:
-        print("Please pass an argument for the subreddit to search")
-        sys.exit()
-    subreddit_name = sys.argv[1]
-    subscribers = number_of_subscribers(subreddit_name)
-    print("{:d}".format(subscribers))
+    '''Queries the Reddit API and returns the
+    number of subscribers
+    Return:
+        0 - if invalid subreddit is given
+    '''
+    if subreddit is None or not isinstance(subreddit, str):
+        return(0)
+    endpoint = 'https://www.reddit.com'
+    headers = {'user-agent': 'Mozilla/5.0 \
+(Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0'}
+    info = requests.get('{}/r/{}/about.json'.format(
+            endpoint,
+            subreddit), headers=headers, allow_redirects=False)
+    if info.status_code == 200:
+        json_info = info.json()
+        return(json_info.get('data').get('subscribers'))
+    else:
+        return(0)
