@@ -16,7 +16,8 @@ def count_words(subreddit, word_list, fullname="", count=0, hash_table={}):
         return
     url = 'https://www.reddit.com/r/{}/hot/.json'.format(subreddit)
     params = {'after': fullname, 'limit': 100, 'count': count}
-    headers = {'user-agent': 'glenmiracle18'}
+    headers = {'user-agent': 'Mozilla/5.0 \
+(Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0'}
     info = requests.get(url, headers=headers,
                         params=params, allow_redirects=False)
     if info.status_code != 200:
