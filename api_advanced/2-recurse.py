@@ -1,20 +1,19 @@
 #!/usr/bin/python3
-'''Defines recursive function to
-return hot posts in a subreddit
+'''Defines recursive function to return hot posts in subreddit
 '''
 import requests
 
 
 def recurse(subreddit, hot_list=[], fullname=None, count=0):
     '''fetches all hot posts in a subreddit
-    with a recursive function
 
     Return:
         None - if subreddit is invalid
     '''
     url = 'https://www.reddit.com/r/{}/hot/.json'.format(subreddit)
     params = {'after': fullname, 'limit': 100, 'count': count}
-    headers = {'user-agent': 'glenmirale18'}
+    headers = {'user-agent': 'Mozilla/5.0 \
+(Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0'}
     info = requests.get(url, headers=headers,
                         params=params, allow_redirects=False)
     if (info.status_code % 400) < 100:
